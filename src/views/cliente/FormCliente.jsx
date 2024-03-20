@@ -1,7 +1,8 @@
-import axios from "axios"
+import axios from 'axios'
 import React, { useState } from 'react'
 import InputMask from 'react-input-mask'
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react'
+import MenuSistema from '../../MenuSistema'
 
 export default function FormCliente() {
   const [nome, setNome] = useState()
@@ -10,29 +11,29 @@ export default function FormCliente() {
   const [foneCelular, setFoneCelular] = useState()
   const [foneFixo, setFoneFixo] = useState()
 
-
   function salvar() {
-
     let clienteRequest = {
-         nome: nome,
-         cpf: cpf,
-         dataNascimento: dataNascimento,
-         foneCelular: foneCelular,
-         foneFixo: foneFixo
+      nome: nome,
+      cpf: cpf,
+      dataNascimento: dataNascimento,
+      foneCelular: foneCelular,
+      foneFixo: foneFixo,
     }
 
-    axios.post("http://localhost:8081/api/cliente", clienteRequest)
-    .then((response) => {
-         console.log('Cliente cadastrado com sucesso.')
-    })
-    .catch((error) => {
-         console.log('Erro ao incluir o um cliente.')
-    })
-}
-
+    axios
+      .post('http://localhost:8081/api/cliente', clienteRequest)
+      .then((response) => {
+        console.log('Cliente cadastrado com sucesso.')
+      })
+      .catch((error) => {
+        console.log('Erro ao incluir o um cliente.')
+      })
+  }
 
   return (
     <div>
+      <MenuSistema />
+
       <div style={{ marginTop: '3%' }}>
         <Container textAlign='justified'>
           <h2>
@@ -83,9 +84,10 @@ export default function FormCliente() {
                   width={6}
                 >
                   <InputMask
-                  mask='(99) 9999.9999'
-                  value={foneCelular}
-                  onChange={(e) => setFoneCelular(e.target.value)} />
+                    mask='(99) 9999.9999'
+                    value={foneCelular}
+                    onChange={(e) => setFoneCelular(e.target.value)}
+                  />
                 </Form.Input>
 
                 <Form.Input
@@ -94,9 +96,10 @@ export default function FormCliente() {
                   width={6}
                 >
                   <InputMask
-                   mask='(99) 9999.9999'
-                   value={foneFixo}
-                  onChange={(e) => setFoneFixo(e.target.value)} />
+                    mask='(99) 9999.9999'
+                    value={foneFixo}
+                    onChange={(e) => setFoneFixo(e.target.value)}
+                  />
                 </Form.Input>
 
                 <Form.Input
@@ -109,7 +112,7 @@ export default function FormCliente() {
                     maskChar={null}
                     placeholder='Ex: 20/03/1985'
                     value={dataNascimento}
-                  onChange={(e) => setDataNascimento(e.target.value)}
+                    onChange={(e) => setDataNascimento(e.target.value)}
                   />
                 </Form.Input>
               </Form.Group>

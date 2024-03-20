@@ -1,5 +1,6 @@
 import axios from "axios"
 import React, { useState } from 'react'
+import MenuSistema from '../../MenuSistema'
 import InputMask from 'react-input-mask'
 import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react'
 import {
@@ -32,7 +33,7 @@ export default function FormProduto() {
       tempoEntregaMaximo: tempoEntregaMaximo
 		}
 	
-		axios.post("http://localhost:8082/api/produto", produtoRequest)
+		axios.post("http://localhost:8081/api/produto", produtoRequest)
 		.then((response) => {
 		     console.log('Cliente cadastrado com sucesso.')
 		})
@@ -45,13 +46,14 @@ export default function FormProduto() {
 
   return (
     <div>
+      <MenuSistema />
       <div style={{ marginTop: '3%' }}>
         <Container textAlign='justified'>
           <h2>
             {' '}
             <span style={{ color: 'darkgray' }}>
               {' '}
-              Cliente &nbsp;
+              Produto &nbsp;
               <Icon
                 name='angle double right'
                 size='small'
