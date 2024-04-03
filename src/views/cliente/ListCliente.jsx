@@ -29,6 +29,7 @@ export default function ListCliente() {
       <MenuSistema tela={'cliente'} />
       <div style={{ marginTop: '3%' }}>
         <Container textAlign='justified'>
+          
           <h2> Cliente </h2>
           <Divider />
 
@@ -80,7 +81,7 @@ export default function ListCliente() {
                         title='Clique aqui para editar os dados deste cliente'
                         icon
                       >
-                        <Icon name='edit' />
+                        <Link to="/form-cliente" state={{id: cliente.id}} style={{color: 'green'}}> <Icon name='edit' /> </Link>
                       </Button>{' '}
                       &nbsp;
                       <Button
