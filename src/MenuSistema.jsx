@@ -2,47 +2,55 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu } from "semantic-ui-react";
 
-export default function MenuSistema () {
+export default function MenuSistema() {
 
-   const [activeItem, setActiveItem] = useState();
+    const [activeItem, setActiveItem] = useState();
 
-   return(
-       <>
-           <Menu inverted>
-              
-               <Menu.Item
-                   name='home'
-                   active={activeItem === 'home'}
-                   onClick={() => setActiveItem('home')}
-                   as={Link}
-                   to='/'
-               />
+    return (
+        <>
+            <Menu inverted>
 
-               <Menu.Item
-                   name='cliente'
-                   active={activeItem === 'cliente'}
-                   onClick={() => setActiveItem('cliente')}
-                   as={Link}
-                   to='/list-cliente'
-               />
+                <Menu.Item
+                    name='home'
+                    active={activeItem === 'home'}
+                    onClick={() => setActiveItem('home')}
+                    as={Link}
+                    to='/'
+                />
 
-<Menu.Item
-                   name='produto'
-                   active={activeItem === 'produto'}
-                   onClick={() => setActiveItem('produto')}
-                   as={Link}
-                   to='/list-produto'
-               />
+                <Menu.Item
+                    name='cliente'
+                    active={activeItem === 'cliente'}
+                    onClick={() => setActiveItem('cliente')}
+                    as={Link}
+                    to='/list-cliente'
+                />
 
-               <Menu.Item
-                   name='entregador'
-                   active={activeItem === 'entregador'}
-                   onClick={() => setActiveItem('entregador')}
-                   as={Link}
-                   to='/list-entregador'
-               />
+                <Menu.Item
+                    name='produto'
+                    active={activeItem === 'produto'}
+                    onClick={() => setActiveItem('produto')}
+                    as={Link}
+                    to='/list-produto'
+                />
 
-           </Menu>
-       </>
-   )
+                <Menu.Item
+                    name='entregador'
+                    active={activeItem === 'entregador'}
+                    onClick={() => setActiveItem('entregador')}
+                    as={Link}
+                    to='/list-entregador'
+                />
+
+                <Menu.Item
+                    name='fornecedor'
+                    active={activeItem === 'fornecedor'}
+                    onClick={() => setActiveItem('fornecedor')}
+                    as={Link}
+                    to='/list-fornecedor'
+                />
+
+            </Menu>
+        </>
+    )
 }
