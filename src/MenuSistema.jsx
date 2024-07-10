@@ -50,6 +50,14 @@ export default function MenuSistema() {
                     to='/list-fornecedor'
                 />
 
+                <Menu.Item
+                    name='consultor'
+                    active={activeItem === 'consultor'}
+                    onClick={() => setActiveItem('consultor')}
+                    as={Link}
+                    to='/list-consultor'
+                />
+
             </Menu>
         </>
     )
