@@ -58,6 +58,14 @@ export default function MenuSistema() {
                     to='/list-consultor'
                 />
 
+                <Menu.Item
+                    name='fabricante'
+                    active={activeItem === 'fabricante'}
+                    onClick={() => setActiveItem('fabricante')}
+                    as={Link}
+                    to='/list-fabricante'
+                />
+
             </Menu>
         </>
     )
