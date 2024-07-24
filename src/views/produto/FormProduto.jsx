@@ -16,32 +16,37 @@ import {
 
 export default function FormProduto() {
 
-   const [codigo, setCodigo] = useState();
-   const [titulo, setTitulo] = useState();
-   const [descricao, setDescricao] = useState();
-   const [valorUnitario, setValorUnitario] = useState();
-   const [tempoEntregaMinimo, setTempoEntregaMinimo] = useState();
-   const [tempoEntregaMaximo, setTempoEntregaMaximo] = useState();
+  const [codigo, setCodigo] = useState();
+  const [titulo, setTitulo] = useState();
+  const [descricao, setDescricao] = useState();
+  const [valorUnitario, setValorUnitario] = useState();
+  const [tempoEntregaMinimo, setTempoEntregaMinimo] = useState();
+  const [tempoEntregaMaximo, setTempoEntregaMaximo] = useState();
+  const [listaCategoria, setListaCategoria] = useState([]);
+  const [idCategoria, setIdCategoria] = useState();
 
-   function salvar() {
 
-		let produtoRequest = {
+  function salvar() {
+
+    let produtoRequest = {
+      idCategoria: idCategoria,
       codigo: codigo,
       titulo: titulo,
       descricao: descricao,
       valorUnitario: valorUnitario,
       tempoEntregaMinimo: tempoEntregaMinimo,
       tempoEntregaMaximo: tempoEntregaMaximo
-		}
-	
-		axios.post("http://localhost:8081/api/produto", produtoRequest)
-		.then((response) => {
-		     console.log('Cliente cadastrado com sucesso.')
-		})
-		.catch((error) => {
-		     console.log('Erro ao incluir o um cliente.')
-		})
-	}
+    }
+
+
+    axios.post("http://localhost:8081/api/produto", produtoRequest)
+      .then((response) => {
+        console.log('Cliente cadastrado com sucesso.')
+             })
+         .catch((error) => {
+        console.log('Erro ao incluir o um cliente.')
+      })
+  }
 
 
 
@@ -75,7 +80,7 @@ export default function FormProduto() {
                   maxLength='100'
                   placeholder='Informe o título do produto'
                   value={titulo}
-			onChange={e => setTitulo(e.target.value)}
+                  onChange={e => setTitulo(e.target.value)}
                 />
 
                 <Form.Input
@@ -85,7 +90,7 @@ export default function FormProduto() {
                   maxLength='100'
                   placeholder='Informe o código do produto'
                   value={codigo}
-			onChange={e => setCodigo(e.target.value)}
+                  onChange={e => setCodigo(e.target.value)}
                 ></Form.Input>
               </Form.Group>
 
@@ -96,18 +101,32 @@ export default function FormProduto() {
                   placeholder='Informe a descrição do produto'
                   width={16}
                   value={descricao}
-			onChange={e => setDescricao(e.target.value)}
+                  onChange={e => setDescricao(e.target.value)}
                 />
               </Form.Group>
 
+              <Form.Select
+                required
+                fluid
+                tabIndex='3'
+                placeholder='Selecione'
+                label='Categoria'
+                options={listaCategoria}
+                value={idCategoria}
+                onChange={(e, { value }) => {
+                  setIdCategoria(value)
+                }}
+              />
+
+
               <Form.Group>
                 <Form.Input
-                required
+                  required
                   fluid
                   label='Valor unitário'
                   width={6}
                   value={valorUnitario}
-			onChange={e => setValorUnitario(e.target.value)}
+                  onChange={e => setValorUnitario(e.target.value)}
                 ></Form.Input>
 
                 <Form.Input
@@ -116,7 +135,7 @@ export default function FormProduto() {
                   placeholder='30'
                   width={6}
                   value={tempoEntregaMinimo}
-			onChange={e => setTempoEntregaMinimo(e.target.value)}
+                  onChange={e => setTempoEntregaMinimo(e.target.value)}
                 ></Form.Input>
 
                 <Form.Input
@@ -125,7 +144,7 @@ export default function FormProduto() {
                   placeholder='40'
                   width={6}
                   value={tempoEntregaMaximo}
-			onChange={e => setTempoEntregaMaximo(e.target.value)}
+                  onChange={e => setTempoEntregaMaximo(e.target.value)}
                 ></Form.Input>
               </Form.Group>
             </Form>
