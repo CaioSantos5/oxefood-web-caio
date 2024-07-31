@@ -15,6 +15,9 @@ export default function FormCliente() {
   const [foneFixo, setFoneFixo] = useState()
   const { state } = useLocation();
   const [idCliente, setIdCliente] = useState();
+  const [listaCategoria, setListaCategoria] = useState([]);
+   const [idCategoria, setIdCategoria] = useState();
+
 
   function formatarData(dataParam) {
     if (dataParam === null || dataParam === '' || dataParam === undefined) {
@@ -27,16 +30,23 @@ export default function FormCliente() {
 
   useEffect(() => {
     if (state != null && state.id != null) {
-        axios.get("http://localhost:8081/api/cliente/" + state.id)
-  .then((response) => {
-                       setIdCliente(response.data.id)
-                       setNome(response.data.nome)
-                       setCpf(response.data.cpf)
-                       setDataNascimento(formatarData(response.data.dataNascimento))
-                       setFoneCelular(response.data.foneCelular)
-                       setFoneFixo(response.data.foneFixo)
+      axios.get("http://localhost:8081/api/cliente/" + state.id)
+        .then((response) => {
+          setIdCliente(response.data.id)
+          setNome(response.data.nome)
+          setCpf(response.data.cpf)
+          setDataNascimento(formatarData(response.data.dataNascimento))
+          setFoneCelular(response.data.foneCelular)
+          setFoneFixo(response.data.foneFixo)
+          setIdCategoria(response.data.categoria.id)
         })
     }
+    axios.get("http://localhost:8081/api/categoriaproduto")
+       .then((response) => {
+           const dropDownCategorias = response.data.map(c => ({ text: c.descricao, value: c.id }));
+           setListaCategoria(dropDownCategorias);
+       })
+
   }, [state])
 
 
@@ -51,13 +61,13 @@ export default function FormCliente() {
 
     if (idCliente != null) { //Alteração:
       axios.put("http://localhost:8081/api/cliente/" + idCliente, clienteRequest)
-      .then((response) => { console.log('Cliente alterado com sucesso.') })
-      .catch((error) => { console.log('Erro ao alter um cliente.') })
-  } else { //Cadastro:
+        .then((response) => { console.log('Cliente alterado com sucesso.') })
+        .catch((error) => { console.log('Erro ao alter um cliente.') })
+    } else { //Cadastro:
       axios.post("http://localhost:8081/api/cliente", clienteRequest)
-      .then((response) => { console.log('Cliente cadastrado com sucesso.') })
-      .catch((error) => { console.log('Erro ao incluir o cliente.') })
-  }
+        .then((response) => { console.log('Cliente cadastrado com sucesso.') })
+        .catch((error) => { console.log('Erro ao incluir o cliente.') })
+    }
 
   }
 
@@ -67,12 +77,12 @@ export default function FormCliente() {
 
       <div style={{ marginTop: '3%' }}>
         <Container textAlign='justified'>
-        { idCliente === undefined &&
-    <h2> <span style={{color: 'darkgray'}}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
-}
-{ idCliente != undefined &&
-    <h2> <span style={{color: 'darkgray'}}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
-}
+          {idCliente === undefined &&
+            <h2> <span style={{ color: 'darkgray' }}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Cadastro</h2>
+          }
+          {idCliente != undefined &&
+            <h2> <span style={{ color: 'darkgray' }}> Cliente &nbsp;<Icon name='angle double right' size="small" /> </span> Alteração</h2>
+          }
 
 
           <Divider />
@@ -102,6 +112,20 @@ export default function FormCliente() {
                   />
                 </Form.Input>
               </Form.Group>
+
+              <Form.Select
+                required
+                fluid
+                tabIndex='3'
+                placeholder='Selecione'
+                label='Categoria'
+                options={listaCategoria}
+                value={idCategoria}
+                onChange={(e, { value }) => {
+                  setIdCategoria(value)
+                }}
+              />
+
 
               <Form.Group>
                 <Form.Input
@@ -146,19 +170,19 @@ export default function FormCliente() {
 
             <div style={{ marginTop: '4%' }}>
 
-            <Link to={'/list-cliente'}>
+              <Link to={'/list-cliente'}>
 
-              <Button
-                type='button'
-                inverted
-                circular
-                icon
-                labelPosition='left'
-                color='orange'
-              >
-                <Icon name='reply' />
-                Voltar
-              </Button>
+                <Button
+                  type='button'
+                  inverted
+                  circular
+                  icon
+                  labelPosition='left'
+                  color='orange'
+                >
+                  <Icon name='reply' />
+                  Voltar
+                </Button>
 
               </Link>
 

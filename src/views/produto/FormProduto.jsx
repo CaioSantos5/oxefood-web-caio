@@ -1,21 +1,13 @@
-import axios from "axios"
-import React, { useState } from 'react'
-import MenuSistema from '../../MenuSistema'
-import { Link } from "react-router-dom";
-import InputMask from 'react-input-mask'
-import { Button, Container, Divider, Form, Icon } from 'semantic-ui-react'
-import {
-  FormGroup,
-  FormField,
-  Checkbox,
-  Input,
-  Radio,
-  Select,
-  TextArea,
-} from 'semantic-ui-react'
+import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from "react-router-dom";
+import { Button, Container, Divider, Form, FormField, Icon, TextArea } from 'semantic-ui-react';
+import MenuSistema from '../../MenuSistema';
 
 export default function FormProduto() {
 
+  const {state} = useLocation();
+  const [idProduto, setIdProduto] = useState();
   const [codigo, setCodigo] = useState();
   const [titulo, setTitulo] = useState();
   const [descricao, setDescricao] = useState();
@@ -25,6 +17,30 @@ export default function FormProduto() {
   const [listaCategoria, setListaCategoria] = useState([]);
   const [idCategoria, setIdCategoria] = useState();
 
+  useEffect(() => {
+
+    if (state != null && state.id != null) {
+        axios
+        .get("http://localhost:8081/api/produto" + state.id)
+        .then((response) => {
+            setIdProduto(response.data.id)
+            setCodigo(response.data.codigo)
+            setTitulo(response.data.titulo)
+            setDescricao(response.data.descricao)
+            setValorUnitario(response.data.valorUnitario)
+            setTempoEntregaMinimo(response.data.tempoEntregaMinimo)
+            setTempoEntregaMaximo(response.data.tempoEntregaMaximo)
+            setIdCategoria(response.data.categoria.id)
+        })
+    }
+
+    axios.get("http://localhost:8081/api/CategoriaProduto")
+    .then((response) => {
+        const dropDownCategorias = response.data.map(c => ({ text: c.descricao, value: c.id }));
+        setListaCategoria(dropDownCategorias);
+    })
+
+}, [state])
 
   function salvar() {
 
@@ -38,16 +54,18 @@ export default function FormProduto() {
       tempoEntregaMaximo: tempoEntregaMaximo
     }
 
-
-    axios.post("http://localhost:8081/api/produto", produtoRequest)
-      .then((response) => {
-        console.log('Cliente cadastrado com sucesso.')
-             })
-         .catch((error) => {
-        console.log('Erro ao incluir o um cliente.')
-      })
+    if (idProduto != null) { 
+      //Alteração:
+      axios.put("http://localhost:8081/api/produto" + idProduto, produtoRequest)
+      .then((response) => { console.log('Produto alterado com sucesso.') })
+      .catch((error) => { console.log('Erro ao alterar um produto.') })
+  } else {
+     //Cadastro:
+      axios.post("http://localhost:8081/api/produto", produtoRequest)
+      .then((response) => { console.log('Produto cadastrado com sucesso.') })
+      .catch((error) => { console.log('Erro ao incluir o produto.') })
   }
-
+}
 
 
   return (
@@ -182,3 +200,4 @@ export default function FormProduto() {
     </div>
   )
 }
+
