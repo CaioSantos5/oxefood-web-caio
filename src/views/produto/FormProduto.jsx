@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from "react-router-dom";
 import { Button, Container, Divider, Form, FormField, Icon, TextArea } from 'semantic-ui-react';
 import MenuSistema from '../../MenuSistema';
+import {mensagemErro, notifyError, notifySuccess } from '../util/Mensagens';
+
 
 export default function FormProduto() {
 
@@ -62,8 +64,12 @@ export default function FormProduto() {
   } else {
      //Cadastro:
       axios.post("http://localhost:8081/api/produto", produtoRequest)
-      .then((response) => { console.log('Produto cadastrado com sucesso.') })
-      .catch((error) => { console.log('Erro ao incluir o produto.') })
+      .then((response) => { notifySuccess('Produto cadastrado com sucesso.') })
+      .catch((error) => { if (error.response) {
+        notifyError(error.response.data.message)
+        } else {
+        notifyError(mensagemErro)
+        } })
   }
 }
 
