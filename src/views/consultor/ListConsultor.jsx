@@ -15,7 +15,7 @@ export default function ListConsultor() {
   }, [])
 
   function carregarLista() {
-    axios.get('http://localhost:8081/api/consultor').then((response) => {
+    axios.get('http://localhost:8080/api/consultor').then((response) => {
       setLista(response.data)
     })
   }
